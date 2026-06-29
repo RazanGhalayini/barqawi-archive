@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abdel Salam al-Barqawi — A Press Record</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1612;
+    --paper: #f7f2e8;
+    --aged: #e8dfc8;
+    --rule: #c8b89a;
+    --accent: #7a3810;
+    --accent-light: #a04e1a;
+    --muted: #6b5e4e;
+    --highlight: #f0e6c8;
+    --white: #fdfaf4;
+    --gold: #c8a84b;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'EB Garamond', serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    font-size: 18px;
+    line-height: 1.7;
+  }
+
+  /* ── Masthead ── */
+  .masthead {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 3rem 2rem 2.5rem;
+    text-align: center;
+    border-bottom: 4px solid var(--gold);
+  }
+
+  .masthead .kicker {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .masthead h1 {
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--paper);
+  }
+
+  .masthead .arabic-title {
+    font-size: clamp(1.4rem, 4vw, 2.2rem);
+    direction: rtl;
+    color: var(--gold);
+    margin-top: 0.5rem;
+  }
+
+  .masthead .subtitle {
+    font-style: italic;
+    color: #b0a090;
+    margin-top: 0.75rem;
+    font-size: 1rem;
+  }
+
+  .masthead .meta {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: #888;
+    margin-top: 1.5rem;
+    text-transform: uppercase;
+  }
+
+  /* ── Controls ── */
+  .controls {
+    background: var(--white);
+    border-bottom: 1px solid var(--rule);
+    padding: 1rem 2rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  .search-wrap {
+    flex: 1;
+    min-width: 200px;
+    position: relative;
+  }
+
+  .search-wrap input {
+    width: 100%;
+    padding: 0.5rem 0.75rem 0.5rem 2rem;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    font-family: 'EB Garamond', serif;
+    font-size: 1rem;
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  .search-wrap input:focus { outline: none; border-color: var(--accent); }
+
+  .search-icon {
+    position: absolute;
+    left: 0.6rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  .sort-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .sort-wrap label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .sort-btn {
+    padding: 0.3rem 0.75rem;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    background: transparent;
+    color: var(--muted);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .sort-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .sort-btn.active { background: var(--accent); color: var(--white); border-color: var(--accent); }
+
+  .expand-btns {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .expand-btns button {
+    background: none;
+    border: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.72rem;
+    color: var(--muted);
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    padding: 0;
+  }
+
+  .expand-btns button:hover { color: var(--accent); }
+
+  /* ── Main content ── */
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+
+  .results-count {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+  }
+
+  /* ── Article card ── */
+  .article {
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--accent);
+    border-radius: 3px;
+    margin-bottom: 0.6rem;
+    background: var(--white);
+    overflow: hidden;
+  }
+
+  .article-header {
+    padding: 0.85rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.1s;
+  }
+
+  .article-header:hover { background: var(--highlight); }
+  .article.open .article-header { background: var(--highlight); border-bottom: 1px solid var(--aged); }
+
+  .chevron {
+    font-size: 0.65rem;
+    color: var(--muted);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+
+  .article.open .chevron { transform: rotate(90deg); }
+
+  .header-text { flex: 1; min-width: 0; }
+
+  .article-title {
+    font-size: 1.05rem;
+    font-weight: 500;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .article-title-en {
+    font-size: 0.85rem;
+    font-style: italic;
+    color: var(--muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 0.1rem;
+  }
+
+  .article-meta {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.68rem;
+    color: var(--muted);
+    margin-top: 0.2rem;
+    letter-spacing: 0.02em;
+  }
+
+  .article-meta .paper { font-weight: 600; color: var(--accent); }
+
+  /* ── Article body ── */
+  .article-body { display: none; }
+  .article.open .article-body { display: block; }
+
+  .article-image {
+    width: 100%;
+    max-height: 500px;
+    object-fit: contain;
+    background: #f0ebe0;
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--aged);
+    cursor: zoom-in;
+  }
+
+  .article-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+
+  .article-col {
+    padding: 1.2rem 1.4rem;
+  }
+
+  .article-col:first-child {
+    border-right: 1px solid var(--aged);
+  }
+
+  .col-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--aged);
+  }
+
+  .arabic-col { direction: rtl; text-align: right; font-size: 1rem; line-height: 2; }
+  .english-col { font-size: 0.95rem; line-height: 1.8; }
+
+  .article-notes {
+    padding: 0.75rem 1.4rem;
+    border-top: 1px solid var(--aged);
+    background: var(--paper);
+    font-style: italic;
+    font-size: 0.88rem;
+    color: var(--muted);
+  }
+
+  .article-notes::before { content: 'Note: '; font-weight: 500; color: var(--accent); }
+
+  /* ── Highlight ── */
+  mark.hl {
+    background: #f5d87a;
+    border-radius: 2px;
+    padding: 0 2px;
+    font-weight: 600;
+    color: inherit;
+  }
+
+  /* ── Lightbox ── */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    cursor: zoom-out;
+  }
+
+  .lightbox.open { display: flex; }
+
+  .lightbox img {
+    max-width: 95vw;
+    max-height: 95vh;
+    object-fit: contain;
+    border: 2px solid var(--gold);
+  }
+
+  .lightbox-close {
+    position: fixed;
+    top: 1rem;
+    right: 1.5rem;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    line-height: 1;
+    background: none;
+    border: none;
+  }
+
+  /* ── Empty / loading ── */
+  .empty {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  .loading {
+    text-align: center;
+    padding: 4rem;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* ── Footer ── */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 2rem;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-top: 3rem;
+  }
+
+  @media (max-width: 640px) {
+    .article-columns { grid-template-columns: 1fr; }
+    .article-col:first-child { border-right: none; border-bottom: 1px solid var(--aged); }
+    .controls { padding: 0.75rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="kicker">Family Archive &nbsp;&middot;&nbsp; Jrayed &nbsp;&middot;&nbsp; Ottoman &amp; Mandatory Palestine</div>
+  <h1>Abdel Salam al-Barqawi</h1>
+  <div class="arabic-title">عبد السلام البرقاوي</div>
+  <div class="subtitle">A Press Record</div>
+  <div class="meta" id="mastheadMeta">Loading archive&hellip;</div>
+</div>
+
+<div class="controls">
+  <div class="search-wrap">
+    <span class="search-icon">&#x2315;</span>
+    <input type="text" id="searchInput" placeholder="Search articles…" oninput="applyFilters()">
+  </div>
+  <div class="sort-wrap">
+    <label>Sort</label>
+    <button class="sort-btn active" id="sort-oldest" onclick="setSort('oldest')">Oldest</button>
+    <button class="sort-btn" id="sort-newest" onclick="setSort('newest')">Newest</button>
+    <button class="sort-btn" id="sort-newspaper" onclick="setSort('newspaper')">Newspaper</button>
+  </div>
+  <div class="expand-btns">
+    <button onclick="expandAll()">Expand all</button>
+    <span style="color:var(--rule)">&middot;</span>
+    <button onclick="collapseAll()">Collapse all</button>
+  </div>
+</div>
+
+<div class="container">
+  <div class="results-count" id="resultsCount"></div>
+  <div id="articleList"><div class="loading">Loading&hellip;</div></div>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<footer>
+  Abdel Salam al-Barqawi Press Archive &nbsp;&middot;&nbsp; Sources: Jrayed, National Library of Israel
+</footer>
+
+<script>
+  let allArticles = [];
+  let sortMode = 'oldest';
+  let openIds = new Set();
+
+  const MONTHS = {january:0,february:1,march:2,april:3,may:4,june:5,july:6,august:7,september:8,october:9,november:10,december:11};
+
+  function parseDate(str) {
+    if (!str) return new Date(0);
+    const parts = str.toLowerCase().trim().split(/[\s,]+/);
+    let day = 1, month = 0, year = 0;
+    for (const p of parts) {
+      if (MONTHS[p] !== undefined) month = MONTHS[p];
+      else if (/^\d{4}$/.test(p)) year = parseInt(p);
+      else if (/^\d{1,2}$/.test(p)) day = parseInt(p);
+    }
+    return year ? new Date(year, month, day) : new Date(0);
+  }
+
+  function getSorted(articles) {
+    const copy = [...articles];
+    if (sortMode === 'oldest') copy.sort((a,b) => parseDate(a.date) - parseDate(b.date));
+    else if (sortMode === 'newest') copy.sort((a,b) => parseDate(b.date) - parseDate(a.date));
+    else if (sortMode === 'newspaper') copy.sort((a,b) => (a.newspaper||'').localeCompare(b.newspaper||''));
+    return copy;
+  }
+
+  function setSort(mode) {
+    sortMode = mode;
+    document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('sort-' + mode).classList.add('active');
+    applyFilters();
+  }
+
+  function highlight(s) {
+    s = String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    s = s.replace(/((?:Abd(?:el|ul|al)?[\s\-]?Salam[\s\-]?(?:Effendi[\s\-]?)?)?(?:[Aa]l[\-\s])?(?:Bar|Bark|Barq)(?:awi|kawi|qawi))/g,'<mark class="hl">$1</mark>');
+    s = s.replace(/(البرقاوي|برقاوي)/g,'<mark class="hl">$1</mark>');
+    return s;
+  }
+
+  function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  function toggleCard(id) {
+    if (openIds.has(id)) openIds.delete(id);
+    else openIds.add(id);
+    const card = document.getElementById('card-' + id);
+    if (card) card.classList.toggle('open', openIds.has(id));
+  }
+
+  function expandAll() { allArticles.forEach(a => openIds.add(a.id)); renderList(getFiltered()); }
+  function collapseAll() { openIds.clear(); renderList(getFiltered()); }
+
+  function getFiltered() {
+    const q = document.getElementById('searchInput').value.toLowerCase().trim();
+    if (!q) return getSorted(allArticles);
+    return getSorted(allArticles.filter(a =>
+      (a.title||'').toLowerCase().includes(q) ||
+      (a.titleEn||'').toLowerCase().includes(q) ||
+      (a.english||'').toLowerCase().includes(q) ||
+      (a.arabic||'').includes(q) ||
+      (a.newspaper||'').toLowerCase().includes(q) ||
+      (a.date||'').toLowerCase().includes(q) ||
+      (a.notes||'').toLowerCase().includes(q)
+    ));
+  }
+
+  function applyFilters() { renderList(getFiltered()); }
+
+  function renderList(articles) {
+    const list = document.getElementById('articleList');
+    const countEl = document.getElementById('resultsCount');
+    countEl.textContent = articles.length + ' article' + (articles.length !== 1 ? 's' : '');
+
+    if (!articles.length) {
+      list.innerHTML = '<div class="empty">No articles found.</div>';
+      return;
+    }
+
+    list.innerHTML = articles.map(a => {
+      const isOpen = openIds.has(a.id);
+      const imgHtml = a.imagePath
+        ? '<img class="article-image" src="/images/' + encodeURIComponent(a.imagePath) + '" alt="newspaper scan" onclick="openLightbox(this.src)">'
+        : '';
+
+      const bodyHtml = imgHtml +
+        '<div class="article-columns">' +
+          '<div class="article-col">' +
+            '<div class="col-label">Arabic original</div>' +
+            '<div class="arabic-col">' + (a.arabic ? highlight(a.arabic) : '<em style="color:var(--muted)">English language article</em>') + '</div>' +
+          '</div>' +
+          '<div class="article-col">' +
+            '<div class="col-label">English translation</div>' +
+            '<div class="english-col">' + highlight(a.english||'') + '</div>' +
+          '</div>' +
+        '</div>' +
+        (a.notes ? '<div class="article-notes">' + esc(a.notes) + '</div>' : '');
+
+      return '<div class="article' + (isOpen ? ' open' : '') + '" id="card-' + a.id + '">' +
+        '<div class="article-header" onclick="toggleCard(' + a.id + ')">' +
+          '<span class="chevron">&#9656;</span>' +
+          '<div class="header-text">' +
+            '<div class="article-title">' + esc(a.title||'(Untitled)') + '</div>' +
+            (a.titleEn ? '<div class="article-title-en">' + esc(a.titleEn) + '</div>' : '') +
+            '<div class="article-meta"><span class="paper">' + esc(a.newspaper||'') + '</span> &nbsp;&middot;&nbsp; ' + esc(a.date) + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="article-body">' + bodyHtml + '</div>' +
+      '</div>';
+    }).join('');
+  }
+
+  function openLightbox(src) {
+    document.getElementById('lightboxImg').src = src;
+    document.getElementById('lightbox').classList.add('open');
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.getElementById('lightboxImg').src = '';
+  }
+
+  // Load articles from server
+  async function loadArticles() {
+    try {
+      const resp = await fetch('/articles.json');
+      if (!resp.ok) throw new Error('Could not load articles');
+      allArticles = await resp.json();
+      const meta = document.getElementById('mastheadMeta');
+      const years = allArticles.map(a => parseDate(a.date).getFullYear()).filter(y => y > 1900);
+      const minY = Math.min(...years), maxY = Math.max(...years);
+      meta.textContent = allArticles.length + ' articles &nbsp;&middot;&nbsp; ' + minY + '\u2013' + maxY;
+      meta.innerHTML = allArticles.length + ' articles &nbsp;&middot;&nbsp; ' + minY + '\u2013' + maxY;
+      applyFilters();
+    } catch(e) {
+      document.getElementById('articleList').innerHTML = '<div class="empty">Could not load archive. ' + e.message + '</div>';
+    }
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+  loadArticles();
+</script>
+</body>
+</html>
